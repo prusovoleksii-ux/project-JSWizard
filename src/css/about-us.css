@@ -15,11 +15,16 @@
     margin-bottom: 24px;
 }
 
+.about-us-img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
 @media screen and (min-width: 1440px) {
   .about-us>.container {
     flex-direction: row;
   }
   .about-us-img {
-    width: 644px;
+    max-width: 644px;
   }
 }

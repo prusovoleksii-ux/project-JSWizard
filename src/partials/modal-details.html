@@ -8,11 +8,11 @@
     </button>
     <div class="product-images">
       <div class="product-img-wrapper">
-        <img class="product-img" src="../img/about-us/about-us-m1.jpg" alt=""></a>
+        <img class="product-img" src="../img/about-us/about-us-m1.jpg" alt="" />
       </div>
       <div class="row">
-        <img class="row-img" src="../img/about-us/about-us-m1.jpg" alt=""></a>
-        <img class="row-img" src="../img/about-us/about-us-m1.jpg" alt=""></a>
+        <img class="row-img" src="../img/about-us/about-us-m1.jpg" alt="" />
+        <img class="row-img" src="../img/about-us/about-us-m1.jpg" alt="" />
       </div>
     </div>
     <div class="product-column">
@@ -21,17 +21,46 @@
       <div class="product-content">
         <b class="product-price">9 999 грн</b>
         <div class="product-review"></div>
-        <div class="product-input">
-          <label class="product-lable" for="">Колір</label>
-          <input class="product-checkbox" type="checkbox" checked />
-          <input class="product-checkbox" type="checkbox" />
-          <input class="product-checkbox" type="checkbox" />
+        <div class="color-product">
+          <p class="color-product-text">Колір</p>
+          <div class="product-input">
+            <label class="product-color__option">
+              <input
+                class="product-color__input"
+                type="radio"
+                value="grey"
+                name="product-color"
+                checked
+              />
+              <span class="product-color__circle checkbox-color-first"></span>
+            </label>
+            <label class="product-color__option">
+              <input
+                class="product-color__input"
+                type="radio"
+                value="peru"
+                name="product-color"
+              />
+              <span class="product-color__circle checkbox-color-second"></span>
+            </label>
+            <label class="product-color__option">
+              <input
+                class="product-color__input"
+                type="radio"
+                value="black"
+                name="product-color"
+              />
+              <span class="product-color__circle checkbox-color-third"></span>
+            </label>
+          </div>
         </div>
-        <p class="product-description">
-          Класичний диван з м'якими подушками та високою спинкою, ідеальний для
-          сімейного відпочинку. Оббивка з якісної зносостійкої тканини.
-        </p>
-        <p class="product-size">Розміри: 280x180x85</p>
+        <div class="product-description">
+          <p class="product-description-text">
+            Класичний диван з м'якими подушками та високою спинкою, ідеальний
+            для сімейного відпочинку. Оббивка з якісної зносостійкої тканини.
+          </p>
+          <p class="product-size">Розміри: 280x180x85</p>
+        </div>
         <button class="button-order button" type="submit">
           Перейти до замовлення
         </button>
