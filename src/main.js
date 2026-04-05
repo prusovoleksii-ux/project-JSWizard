@@ -1,3 +1,6 @@
+import './js/modal-details';
+import accordionInit from './js/accordion.js';
+
 import { openModal, 
         closeModal, 
         onBackdropClick, 
@@ -12,6 +15,8 @@ import {
   scrollPage,
   hideLoadMoreBtn,
 } from './js/base-functions';
+import { initHeader } from './js/header.js';
+initHeader();
 
 //modal close & open
 refs.modalCloseBtn.addEventListener('click', closeModal);
@@ -26,7 +31,10 @@ export let furnitureCategory = 'all';
 let currentCategory = "all"
 
 document.addEventListener('DOMContentLoaded', async () => {
+  accordionInit();
+
   hideLoadMoreBtn();
+
   try {
     const categoriesData = await fetchCategories();
     fillCategoryNames(categoriesData);
@@ -46,6 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 refs.loadMoreBtn.addEventListener('click', async () => {
   page += 1;
   hideLoadMoreBtn();
+
   try {
     const data = await fetchFurnitures();
     loadFurnitures(data.furnitures);
@@ -77,5 +86,4 @@ refs.categoryList.addEventListener('click', async (event) => {
   } catch (error) {
     console.error('Помилка при завантаженні меблів:', error);
   }
-  
-})
+});

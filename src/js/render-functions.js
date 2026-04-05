@@ -1,7 +1,7 @@
 import { refs } from './refs';
 
 // Перевірка білого кольору
-function swatchClass(color) {
+export function swatchClass(color) {
   const n = String(color).trim().toLowerCase();
   const isWhite = n === '#fff' || n === '#ffffff' || n === 'white';
   return isWhite
@@ -26,7 +26,7 @@ function createMarkup(item) {
     .join('');
 
   return `
-		<li class="furniture-item">
+		<li class="furniture-item" data-id="${item._id}">
 			<img
 				class="furniture-item-img"
 				src="${image}"

@@ -26,6 +26,7 @@
   max-width: 335px;
   border-radius: 8px;
   padding: 64px 20px;
+  padding-bottom: 32px;
   background: var(--background-main);
   gap: 24px;
   overflow-y: auto;
@@ -118,18 +119,7 @@
     150ms ease-in-out,
     box-shadow 150ms ease;
 }
-.checkbox-color-first {
-  background-color: #c7c3bb;
-  border: 1px solid #c7c3bb;
-}
-.checkbox-color-second {
-  background-color: #c7aa80;
-  border: 1px solid #c7aa80;
-}
-.checkbox-color-third {
-  background-color: #201a19;
-  border: 1px solid #201a19;
-}
+
 .product-color__option:hover .product-color__circle {
   transform: scale(1.1);
 }
@@ -213,6 +203,7 @@
 
   .product-images {
     max-width: 580px;
+    justify-content: center;
   }
   .product-img-wrapper {
     height: 308px;
