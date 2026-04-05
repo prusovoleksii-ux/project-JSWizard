@@ -62,12 +62,14 @@
    width: 24px;
    height: 24px;
   fill: var(--background-main); 
-  transition: opacity var(--time) var(--cubic-bezier);
+  transition: transform var(--time) var(--cubic-bezier),
+    opacity var(--time) var(--cubic-bezier);
   }
 
   .footer-socials-items:hover,
   .footer-socials-items:focus {
     opacity: 0.5;
+    transform: translateY(-2px);
   }
 
 .copyright {
