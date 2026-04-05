@@ -1,3 +1,4 @@
+import './js/modal-details';
 import accordionInit from './js/accordion.js';
 
 import { openModal, 
