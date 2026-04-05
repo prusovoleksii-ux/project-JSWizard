@@ -1,3 +1,5 @@
+import accordionInit from './js/accordion.js';
+
 import { openModal, 
         closeModal, 
         onBackdropClick, 
@@ -23,7 +25,10 @@ export let TOTAL_ITEMS;
 export let page = 1;
 
 document.addEventListener('DOMContentLoaded', async () => {
+  accordionInit();
+
   hideLoadMoreBtn();
+
   try {
     const data = await fetchFurnitures();
     TOTAL_ITEMS = Math.ceil(data.totalItems / PAGE_SIZE);
@@ -37,6 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 refs.loadMoreBtn.addEventListener('click', async () => {
   page += 1;
   hideLoadMoreBtn();
+
   try {
     const data = await fetchFurnitures();
     loadFurnitures(data.furnitures);
