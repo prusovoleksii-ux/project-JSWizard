@@ -1,3 +1,8 @@
+import { openModal, 
+        closeModal, 
+        onBackdropClick, 
+        onKeydownEscape } from "./js/close-modal";
+
 import { PAGE_SIZE } from './js/constants';
 import { refs } from './js/refs';
 import { fetchFurnitures } from './js/products-api';
@@ -8,6 +13,12 @@ import {
   hideLoadMoreBtn,
 } from './js/base-functions';
 
+//modal close & open
+refs.modalCloseBtn.addEventListener('click', closeModal);
+refs.backdrop.addEventListener('click', onBackdropClick);
+document.addEventListener('keydown', onKeydownEscape);
+
+//furniture list
 export let TOTAL_ITEMS;
 export let page = 1;
 
