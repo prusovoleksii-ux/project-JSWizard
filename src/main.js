@@ -26,6 +26,7 @@ document.addEventListener('keydown', onKeydownEscape);
 //furniture list
 export let TOTAL_ITEMS;
 export let page = 1;
+export let furnitureCategory = 'all';
 
 let currentCategory = "all"
 
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (allItem) allItem.classList.add('active');
 
 
-    const data = await fetchFurnitures(currentCategory);
+    const data = await fetchFurnitures();
     TOTAL_ITEMS = Math.ceil(data.totalItems / PAGE_SIZE);
     loadFurnitures(data.furnitures);
     checkBtnStatus();
@@ -76,4 +77,13 @@ refs.categoryList.addEventListener('click', async (event) => {
   document.querySelectorAll('.our-furniture-item')
     .forEach(li => li.classList.remove('active'));
   target.classList.add('active');
-})
+  refs.furnitureList.innerHTML = '';
+  try {
+    const data = await fetchFurnitures(target.dataset.id);
+    TOTAL_ITEMS = Math.ceil(data.totalItems / PAGE_SIZE);
+    loadFurnitures(data.furnitures);
+    checkBtnStatus();
+  } catch (error) {
+    console.error('Помилка при завантаженні меблів:', error);
+  }
+});
