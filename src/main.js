@@ -14,6 +14,8 @@ import {
   scrollPage,
   hideLoadMoreBtn,
 } from './js/base-functions';
+import { initHeader } from './js/header.js';
+initHeader();
 
 //modal close & open
 refs.modalCloseBtn.addEventListener('click', closeModal);
