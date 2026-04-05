@@ -1,32 +1,52 @@
-const refs = {
-  backdrop: document.querySelector('.backdrop'),
-  modalCloseBtn: document.querySelector('.js-close-modal'),
-};
+import {
+  openModal,
+  closeModal,
+  onBackdropClick,
+  onKeydownEscape,
+} from './js/close-modal';
+
+import './js/modal-details';
+
+import { PAGE_SIZE } from './js/constants';
+import { refs } from './js/refs';
+import { fetchFurnitures } from './js/products-api';
+import { loadFurnitures } from './js/render-functions';
+import {
+  checkBtnStatus,
+  scrollPage,
+  hideLoadMoreBtn,
+} from './js/base-functions';
+
+//modal close & open
 refs.modalCloseBtn.addEventListener('click', closeModal);
 refs.backdrop.addEventListener('click', onBackdropClick);
 document.addEventListener('keydown', onKeydownEscape);
-const isModalOpen = () => {
-  return !refs.backdrop.classList.contains('is-hidden');
-};
 
-function onKeydownEscape(e) {
-  if (e.key === 'Escape' && isModalOpen()) {
-    closeModal();
+//furniture list
+export let TOTAL_ITEMS;
+export let page = 1;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  hideLoadMoreBtn();
+  try {
+    const data = await fetchFurnitures();
+    TOTAL_ITEMS = Math.ceil(data.totalItems / PAGE_SIZE);
+    loadFurnitures(data.furnitures);
+    checkBtnStatus();
+  } catch (error) {
+    console.error('Помилка при завантаженні меблів:', error);
   }
-}
+});
 
-function onBackdropClick(e) {
-  if (e.target === e.currentTarget) {
-    closeModal();
+refs.loadMoreBtn.addEventListener('click', async () => {
+  page += 1;
+  hideLoadMoreBtn();
+  try {
+    const data = await fetchFurnitures();
+    loadFurnitures(data.furnitures);
+    scrollPage();
+    checkBtnStatus();
+  } catch (error) {
+    console.error('Помилка при завантаженні меблів:', error);
   }
-}
-
-function closeModal() {
-  refs.backdrop.classList.add('is-hidden');
-  document.body.classList.remove('no-scroll');
-}
-
-function openModal() {
-  refs.backdrop.classList.remove('is-hidden');
-  document.body.classList.add('no-scroll');
-}
+});
