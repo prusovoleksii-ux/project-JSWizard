@@ -78,6 +78,7 @@ refs.categoryList.addEventListener('click', async (event) => {
     .forEach(li => li.classList.remove('active'));
   target.classList.add('active');
   refs.furnitureList.innerHTML = '';
+  page = 1;
   try {
     const data = await fetchFurnitures(target.dataset.id);
     TOTAL_ITEMS = Math.ceil(data.totalItems / PAGE_SIZE);
