@@ -1,7 +1,11 @@
+// Add to main file  JS
+// import { initFeedbackSection } from './js/reviews.js';
+// document.addEventListener('DOMContentLoaded', initFeedbackSection);
+
 // Axios
 import axios from 'axios';
 
-//Бекенд
+//Backend
 const URL = 'https://furniture-store-v2.b.goit.study';
 const feedbacksURL = `${URL}/api/feedbacks`;
 
@@ -11,7 +15,6 @@ import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 
 // Star-rating.css import 'css-star-rating/css/star-rating.css';
-import 'css-star-rating/css/star-rating.css';
 import starFull from '../img/stars/star-full.svg?url';
 import starEmpty from '../img/stars/star-empty.svg?url';
 import starHalf from '../img/stars/star-half.svg?url';
@@ -82,6 +85,7 @@ export async function initFeedbackSection() {
         el: paginationEl,
         clickable: true,
         dynamicBullets: true,
+        dynamicMainBullets: 5,
       },
 
       navigation: {
