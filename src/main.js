@@ -26,6 +26,7 @@ import {
   scrollPage,
   hideLoadMoreBtn,
 } from './js/base-functions';
+import { showLoader, hideLoader } from './js/loader.js';
 import { initHeader } from './js/header.js';
 initHeader();
 
@@ -43,7 +44,7 @@ let currentCategory = 'all';
 
 document.addEventListener('DOMContentLoaded', async () => {
   accordionInit();
-
+showLoader()
   hideLoadMoreBtn();
 
   try {
@@ -58,6 +59,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     checkBtnStatus();
   } catch (error) {
     console.error('Помилка при завантаженні меблів:', error);
+  } finally {
+    hideLoader();
   }
 
 // популярні меблі
@@ -90,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 refs.loadMoreBtn.addEventListener('click', async () => {
   page += 1;
   hideLoadMoreBtn();
-
+showLoader()
   try {
     const data = await fetchFurnitures();
     loadFurnitures(data.furnitures);
@@ -98,6 +101,8 @@ refs.loadMoreBtn.addEventListener('click', async () => {
     checkBtnStatus();
   } catch (error) {
     console.error('Помилка при завантаженні меблів:', error);
+  }finally {
+    hideLoader();
   }
 });
 
