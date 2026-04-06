@@ -7,10 +7,12 @@ import 'swiper/css/pagination';
 import './js/modal-details';
 import accordionInit from './js/accordion.js';
 
-import { openModal, 
-        closeModal, 
-        onBackdropClick, 
-        onKeydownEscape } from "./js/close-modal";
+import {
+  openModal,
+  closeModal,
+  onBackdropClick,
+  onKeydownEscape,
+} from './js/close-modal';
 
 import { PAGE_SIZE } from './js/constants';
 import { refs } from './js/refs';
@@ -34,7 +36,7 @@ export let TOTAL_ITEMS;
 export let page = 1;
 export let furnitureCategory = 'all';
 
-let currentCategory = "all"
+let currentCategory = 'all';
 
 document.addEventListener('DOMContentLoaded', async () => {
   accordionInit();
@@ -46,7 +48,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     fillCategoryNames(categoriesData);
     const allItem = document.querySelector('[data-id="all"]');
     if (allItem) allItem.classList.add('active');
-
 
     const data = await fetchFurnitures();
     TOTAL_ITEMS = Math.ceil(data.totalItems / PAGE_SIZE);
@@ -98,14 +99,15 @@ refs.loadMoreBtn.addEventListener('click', async () => {
 
 // Обробка кліку по категоріях
 
-refs.categoryList.addEventListener('click', async (event) => {
+refs.categoryList.addEventListener('click', async event => {
   const target = event.target.closest('.our-furniture-item');
 
   if (!target) {
     return;
   }
-  // рамка 
-  document.querySelectorAll('.our-furniture-item')
+  // рамка
+  document
+    .querySelectorAll('.our-furniture-item')
     .forEach(li => li.classList.remove('active'));
   target.classList.add('active');
   refs.furnitureList.innerHTML = '';
