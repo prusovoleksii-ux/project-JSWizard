@@ -18,9 +18,14 @@ export function onBackdropClick(e) {
 export function closeModal() {
   refs.backdrop.classList.add('is-hidden');
   document.body.classList.remove('no-scroll');
+  document.body.style.paddingRight = '';
 }
 
 export function openModal() {
-  refs.backdrop.classList.remove('is-hidden');
+  const scrollBarWidth =
+    window.innerWidth - document.documentElement.clientWidth;
+
   document.body.classList.add('no-scroll');
+  document.body.style.paddingRight = `${scrollBarWidth}px`;
+  refs.backdrop.classList.remove('is-hidden');
 }
