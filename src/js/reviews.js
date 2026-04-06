@@ -84,8 +84,6 @@ export async function initFeedbackSection() {
       pagination: {
         el: paginationEl,
         clickable: true,
-        dynamicBullets: true,
-        dynamicMainBullets: 5,
       },
 
       navigation: {
