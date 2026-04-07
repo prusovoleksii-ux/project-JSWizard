@@ -15,6 +15,9 @@ import { closeModal, openModal, openOrderModal } from './close-modal';
 import { swatchClass } from './render-functions';
 import { fetchFurnitureById } from './products-api';
 
+let currentProduct = null;
+let selectedColor = null;
+
 function renderColor(colors) {
   modalRefs.colorContainer.innerHTML = colors
     .map(
@@ -51,32 +54,43 @@ function renderModal(data) {
   renderColor(data.color);
 }
 
+modalRefs.colorContainer.addEventListener('change', e => {
+  if (!e.target.classList.contains('product-color__input')) return;
+  selectedColor = String(e.target.value);
+  console.log('🎨 Вибрано колір:', selectedColor);
+});
+
 refs.furnitureList.addEventListener('click', onCardClick);
 if (refs.popularList) refs.popularList.addEventListener('click', onCardClick);
 async function onCardClick(e) {
   const btn = e.target.closest('.furniture-item-btn');
   if (!btn) return;
-
   const card = e.target.closest('.furniture-item');
   if (!card) return;
-
   const id = card.dataset.id;
   try {
     const data = await fetchFurnitureById(id);
+    currentProduct = data;
+    selectedColor = data.color?.[0] ? String(data.color[0]) : '#1212ca';
+    console.log('📦 Завантажено товар:', {
+      name: data.name,
+      initialColor: selectedColor,
+    });
     renderModal(data);
     openModal();
-  } catch (error) {}
+  } catch (error) {
+    console.error('Помилка:', error);
+  }
 }
-
-//перехід з product modal => order modal
+// Перехід з product modal => order modal
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.querySelector('.modal-details');
   modal?.addEventListener('click', e => {
     const orderBtn = e.target.closest('.button-order');
     if (!orderBtn) return;
     e.preventDefault();
-
+    console.log('🛒 Відправка замовлення з кольором:', selectedColor);
     closeModal();
-    openOrderModal();
+    openOrderModal(currentProduct, selectedColor);
   });
 });
