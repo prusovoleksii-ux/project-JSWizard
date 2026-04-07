@@ -53,16 +53,11 @@ export function onOrderKeydownEscape(e) {
     closeOrderModal();
   }
 }
-export function openOrderModal(product, color) {
-  const orderBackdrop = document.querySelector('.order-backdrop');
-  if (!orderBackdrop) return;
-}
 
 export function openOrderModal(product, color) {
   if (!refs.orderBackdrop) return;
   setOrderData(product, color);
 
-  console.log('openOrderModal викликано з:', { product, color }); // добавьте для проверки
   const scrollBarWidth =
     window.innerWidth - document.documentElement.clientWidth;
   document.body.classList.add('no-scroll');
@@ -73,6 +68,5 @@ export function openOrderModal(product, color) {
     }
     refs.orderBackdrop.classList.add('is-open');
     closeModal();
-    orderBackdrop.classList.add('is-open');
   });
 }

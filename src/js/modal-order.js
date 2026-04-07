@@ -20,10 +20,6 @@ let selectedColor = null;
 export function setOrderData(product, color) {
   currentProduct = product;
   selectedColor = color ? String(color) : '#1212ca';
-  console.log('✅ setOrderData викликано:', {
-    productId: currentProduct?._id || currentProduct?.id,
-    selectedColor,
-  });
 }
 // --- ЕЛЕМЕНТИ ---
 const nameInput = document.getElementById('name');
@@ -265,7 +261,6 @@ refs.form.addEventListener('submit', async e => {
       currentProduct?._id || currentProduct?.id || '682f9bbf8acbdf505592ac36',
     color: selectedColor ? String(selectedColor) : '#1212ca',
   };
-  console.log('Відправка:', formData);
   try {
     showLoader();
     await axios.post(API_URL, formData);
