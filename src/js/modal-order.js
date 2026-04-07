@@ -269,7 +269,6 @@ refs.form.addEventListener('submit', async e => {
     showLoader();
     await axios.post(API_URL, formData);
     hideLoader();
-    await showToast('success', 'Дякуємо!', 'Ваше замовлення прийнято.');
     refs.form.reset();
     phoneMask.value = '';
     phoneMask.updateValue();
@@ -280,6 +279,7 @@ refs.form.addEventListener('submit', async e => {
     fieldStates.phone = { isValidated: false, wasTouched: false };
     updateButton();
     closeOrderModal();
+    await showToast('success', 'Дякуємо!', 'Ваше замовлення прийнято.');
   } catch (error) {
     hideLoader();
     console.error('Помилка відправки:', error.response?.data || error.message);
