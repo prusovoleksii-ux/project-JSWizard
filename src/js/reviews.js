@@ -1,5 +1,3 @@
-
-
 // Axios
 import axios from 'axios';
 
@@ -45,7 +43,7 @@ export async function initFeedbackSection() {
 
   try {
     // Backend request
-    const page = Math.floor(Math.random() * 15) + 1;
+    const page = Math.floor(Math.random() * 10) + 1;
     const response = await getFeedbacks(10, page);
     const feedbacks = response?.feedbacks || [];
 
