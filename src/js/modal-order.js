@@ -114,6 +114,10 @@ const validators = {
 const validation = {
   show: (input, { isValid, message }) => {
     const container = input.closest('.entry-field');
+    if (!container) {
+      console.warn('No .entry-field found for input:', input);
+      return;  // Exit early, no crash
+    }
     container
       .querySelectorAll(
         '.just-validate-error-label, .just-validate-success-label'
