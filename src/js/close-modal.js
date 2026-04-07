@@ -1,3 +1,4 @@
+import { showLoader } from './loader';
 import { refs } from './refs';
 export const isModalOpen = () => {
   return refs.backdrop.classList.contains('is-open');
