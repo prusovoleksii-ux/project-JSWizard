@@ -15,6 +15,9 @@ import { closeModal, openModal, openOrderModal } from './close-modal';
 import { swatchClass } from './render-functions';
 import { fetchFurnitureById } from './products-api';
 
+let currentProduct = null;
+let selectedColor = null;
+
 function renderColor(colors) {
   modalRefs.colorContainer.innerHTML = colors
     .map(
@@ -51,6 +54,11 @@ function renderModal(data) {
   renderColor(data.color);
 }
 
+modalRefs.colorContainer.addEventListener('change', e => {
+  if (!e.target.classList.contains('product-color__input')) return;
+  selectedColor = e.target.value;
+});
+
 refs.furnitureList.addEventListener('click', onCardClick);
 if (refs.popularList) refs.popularList.addEventListener('click', onCardClick);
 async function onCardClick(e) {
@@ -63,6 +71,10 @@ async function onCardClick(e) {
   const id = card.dataset.id;
   try {
     const data = await fetchFurnitureById(id);
+
+    currentProduct = data;
+    selectedColor = data.color?.[0] || null;
+
     renderModal(data);
     openModal();
   } catch (error) {}
@@ -77,6 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     closeModal();
-    openOrderModal();
+    openOrderModal(currentProduct, selectedColor);
   });
 });

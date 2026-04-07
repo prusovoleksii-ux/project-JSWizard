@@ -34,7 +34,7 @@ export function openModal() {
   });
 }
 
-export function openOrderModal() {
+export function openOrderModal(product, color) {
   const orderBackdrop = document.querySelector('.order-backdrop');
   if (!orderBackdrop) return;
 
@@ -47,6 +47,5 @@ export function openOrderModal() {
   requestAnimationFrame(() => {
     closeModal();
     orderBackdrop.classList.add('is-open');
-
   });
 }
