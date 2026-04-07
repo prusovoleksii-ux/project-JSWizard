@@ -31,7 +31,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(8, 12, 9, 0.15);
+  border: var(--border-input);
+  background-color: var(--background-slider);
   border-radius: 100px;
   padding: 12px;
   width: 48px;
@@ -40,8 +41,28 @@
 }
 
 .popular-btn:disabled {
-  opacity: 0.2;
+  opacity: 0.3;
   cursor: default;
+  border: var(--border-input);
+  background-color: var(--background-slider);
+}
+.popular-btn {
+  transition:
+    background-color var(--time) var(--cubic-bezier),
+    border var(--time) var(--cubic-bezier),
+    fill var(--time) var(--cubic-bezier);
+}
+.popular-btn:not(:disabled):not(.swiper-button-disabled):hover,
+.popular-btn:not(:disabled):not(.swiper-button-disabled):focus {
+  fill: var(--background-main);
+  outline: none;
+  border: var(--border-input);
+  background-color: var(--background-slider-hover);
+}
+
+.popular-btn:not(:disabled):not(.swiper-button-disabled):active {
+  border: var(--border-input);
+  background-color: var(--background-secondary);
 }
 
 .popular-pagination {
@@ -68,7 +89,7 @@
   }
 }
 
-/* ================= DESKTOP ================= */
+/* ================= Desktop ================= */
 @media screen and (min-width: 1440px) {
   .popular-products-title {
     font-size: var(--font-size-rare);
