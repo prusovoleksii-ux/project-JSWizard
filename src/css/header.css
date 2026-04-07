@@ -108,7 +108,7 @@ body.no-scroll {
   text-align: center;
   color: var(--color-secondary);
   border-radius: var(--border-radius-btn);
-  box-shadow: var(--box-shadow-light);
+  box-shadow: var(--box-shadow-dark);
   width: 100%;
   max-width: 335px;
   margin-left: auto;
