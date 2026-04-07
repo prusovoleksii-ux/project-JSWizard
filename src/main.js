@@ -121,13 +121,16 @@ refs.categoryList.addEventListener('click', async event => {
   target.classList.add('active');
   refs.furnitureList.innerHTML = '';
   page = 1;
+  showLoader();
   try {
     const data = await fetchFurnitures(target.dataset.id);
     TOTAL_ITEMS = Math.ceil(data.totalItems / PAGE_SIZE);
     loadFurnitures(data.furnitures);
     checkBtnStatus();
+    hideLoader();
   } catch (error) {
     console.error('Помилка при завантаженні меблів:', error);
+    hideLoader();
   }
 });
 
