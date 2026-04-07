@@ -1,3 +1,4 @@
+import { showLoader } from './loader';
 import { refs } from './refs';
 import { setOrderData } from './modal-order.js';
 export const isModalOpen = () => {
@@ -52,6 +53,10 @@ export function onOrderKeydownEscape(e) {
     closeOrderModal();
   }
 }
+export function openOrderModal(product, color) {
+  const orderBackdrop = document.querySelector('.order-backdrop');
+  if (!orderBackdrop) return;
+}
 
 export function openOrderModal(product, color) {
   if (!refs.orderBackdrop) return;
@@ -67,5 +72,7 @@ export function openOrderModal(product, color) {
       refs.backdrop.classList.remove('is-open');
     }
     refs.orderBackdrop.classList.add('is-open');
+    closeModal();
+    orderBackdrop.classList.add('is-open');
   });
 }

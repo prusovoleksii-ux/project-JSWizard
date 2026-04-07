@@ -14,6 +14,10 @@ import { refs } from './refs';
 import { closeModal, openModal, openOrderModal } from './close-modal';
 import { swatchClass } from './render-functions';
 import { fetchFurnitureById } from './products-api';
+import { hideLoader, showLoader } from './loader';
+
+let currentProduct = null;
+let selectedColor = null;
 
 let currentProduct = null;
 let selectedColor = null;
@@ -69,6 +73,7 @@ async function onCardClick(e) {
   if (!card) return;
   const id = card.dataset.id;
   try {
+    showLoader();
     const data = await fetchFurnitureById(id);
     currentProduct = data;
     selectedColor = data.color?.[0] ? String(data.color[0]) : '#1212ca';
@@ -79,7 +84,9 @@ async function onCardClick(e) {
     renderModal(data);
     openModal();
   } catch (error) {
-    console.error('Помилка:', error);
+    console.error('Помилка при завантаженні меблів:', error);
+  } finally {
+    hideLoader();
   }
 }
 // Перехід з product modal => order modal

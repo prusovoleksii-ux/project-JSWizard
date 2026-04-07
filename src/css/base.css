@@ -9,7 +9,8 @@
   --background-sofacolor-1: #c7c3bb;
   --background-sofacolor-2: #c7aa80;
   --background-sofacolor-3: #201a19;
-  --background-gradient-hiro: rgba(0, 0, 0, 0.5);
+  --background-gradient-hiro: rgba(0, 0, 0, 0.6);
+  --background-gradient-hiro-desktop: rgba(0, 0, 0, 0.5);
   --background-gradient-cards: rgba(0, 0, 0, 0.4);
   --color-main: #080c09;
   --color-secondary: #fff;
