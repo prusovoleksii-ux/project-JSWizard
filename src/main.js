@@ -79,6 +79,10 @@ showLoader()
     prevEl: '.popular-btn--prev',
     nextEl: '.popular-btn--next',
   },
+  on: {
+    navigationNext(swiper) { swiper.navigation.nextEl.blur(); },
+    navigationPrev(swiper) { swiper.navigation.prevEl.blur(); },
+  },
   pagination: {
     el: '.popular-pagination',
     clickable: true,
