@@ -23,7 +23,7 @@
   left: 50%;
   transform: translate(-50%, -70%);
   width: 100%;
-  min-width: 335px;
+  max-width: 335px;
   height: auto;
   padding: 64px 20px;
   background-color: var(--background-main);
@@ -135,7 +135,7 @@
   margin-top: 5px;
   display: block;
 }
-.send-button {
+.send-btn {
   display: block;
   width: 295px;
   margin: 0 auto;
@@ -145,14 +145,13 @@
   transition: opacity var(--time) var(--cubic-bezier);
 }
 /* Блокування кнопки коли поля не заповнені */
-.send-button:disabled {
+.send-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background-color: #ccc;
   pointer-events: none;
 }
-.send-button:not(:disabled):hover,
-.send-button:not(:disabled):focus {
+.send-btn:not(:disabled):hover,
+.send-btn:not(:disabled):focus {
   opacity: 0.8;
 }
 input:-webkit-autofill,
@@ -172,7 +171,7 @@ textarea:-webkit-autofill:focus {
     max-width: 704px;
     padding: 64px 32px 32px;
   }
-  .send-button {
+  .send-btn {
     width: 196px;
   }
 }
@@ -182,8 +181,14 @@ textarea:-webkit-autofill:focus {
     max-width: 866px;
     padding: 64px;
   }
-  .send-button:hover,
-  .send-button:focus {
+
+  .btn-close:hover,
+  .btn-close:focus {
+    opacity: 0.5;
+  }
+
+  .send-btn:hover,
+  .send-btn:focus {
     opacity: 0.5;
   }
 }

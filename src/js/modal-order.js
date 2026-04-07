@@ -2,34 +2,39 @@ import IMask from 'imask';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import axios from 'axios';
+import { refs } from './refs';
 import {
-  openModal,
-  closeModal,
-  onBackdropClick,
-  onKeydownEscape,
-} from './close-modal';
+  openOrderModal,
+  closeOrderModal,
+  onOrderBackdropClick,
+  onOrderKeydownEscape,
+} from './close-modal.js';
+import { showLoader, hideLoader } from './loader.js';
 // --- КОНСТАНТИ ---
 const STORAGE_KEY = 'modal-form-state';
 const API_URL = 'https://furniture-store-v2.b.goit.study/api/orders';
+// --- ЗБЕРЕЖЕННЯ ДАНИХ ТОВАРУ І КОЛЬОРУ ---
+let currentProduct = null;
+let selectedColor = null;
+// Функція для встановлення даних товару (викликається з close-modal.js)
+export function setOrderData(product, color) {
+  currentProduct = product;
+  selectedColor = color ? String(color) : '#1212ca';
+}
 // --- ЕЛЕМЕНТИ ---
-const elements = {
-  backdrop: document.querySelector('.backdrop'),
-  form: document.querySelector('.form'),
-  nameInput: document.getElementById('name'),
-  phoneInput: document.getElementById('phone'),
-  commentInput: document.getElementById('comment'),
-  sendButton: document.querySelector('.send-button'),
-  openModalBtns: document.querySelectorAll('.button-order'),
-};
-const {
-  backdrop,
-  form,
-  nameInput,
-  phoneInput,
-  commentInput,
-  sendButton,
-  openModalBtns,
-} = elements;
+const nameInput = document.getElementById('name');
+const phoneInput = document.getElementById('phone');
+const commentInput = document.getElementById('comment');
+if (
+  !refs.form ||
+  !nameInput ||
+  !phoneInput ||
+  !commentInput ||
+  !refs.sendButton
+) {
+  console.error('Не знайдено необхідні елементи форми');
+  throw new Error('Form elements not found');
+}
 // --- СТАН ПОЛІВ ---
 let fieldStates = {
   name: { isValidated: false, wasTouched: false },
@@ -145,32 +150,24 @@ const validation = {
 };
 // --- ПЕРЕВІРКА КНОПКИ ---
 const updateButton = () => {
-  sendButton.disabled = !(
+  refs.sendButton.disabled = !(
     nameInput.value.trim().length >= 3 && phoneMask.unmaskedValue.length === 12
   );
 };
 // --- TOAST ---
 const showToast = (type, title, message) => {
   return new Promise(resolve => {
-    const modalElement = document.querySelector('.modal');
     iziToast.destroy();
     const config = {
-      target: modalElement,
       timeout: 3000,
       progressBar: true,
       close: true,
       closeOnClick: true,
       position: 'center',
-      transitionIn: 'bounceInDown',
+      transitionIn: 'fadeInDown',
       transitionOut: 'fadeOutUp',
-      titleSize: '22px',
-      messageSize: '16px',
-      maxWidth: '90%',
-      layout: 2,
-      balloon: false,
-      overlay: true,
-      overlayClose: false,
-      overlayColor: 'rgba(0, 0, 0, 0.6)',
+      titleSize: '18px',
+      messageSize: '14px',
     };
     if (type === 'success') {
       config.backgroundColor = '#d4edda';
@@ -231,7 +228,7 @@ const fieldHandlers = {
     },
   },
 };
-// --- Додаємо всі обробники ---
+// --- СЛУХАЧІ ПОДІЙ ---
 nameInput.addEventListener('input', fieldHandlers.name.input);
 nameInput.addEventListener('blur', fieldHandlers.name.blur);
 nameInput.addEventListener('focus', fieldHandlers.name.focus);
@@ -240,16 +237,16 @@ phoneInput.addEventListener('blur', fieldHandlers.phone.blur);
 phoneInput.addEventListener('focus', fieldHandlers.phone.focus);
 commentInput.addEventListener('input', storage.save);
 // --- МОДАЛЬНЕ ВІКНО: ОБРОБНИКИ ---
-openModalBtns.forEach(btn => {
-  btn.addEventListener('click', e => {
-    e.preventDefault();
-    openModal();
-  });
-});
-backdrop.addEventListener('click', onBackdropClick);
-document.addEventListener('keydown', onKeydownEscape);
+const closeBtn = document.querySelector('.order-backdrop .btn-close');
+if (closeBtn) {
+  closeBtn.addEventListener('click', closeOrderModal);
+}
+if (refs.orderBackdrop) {
+  refs.orderBackdrop.addEventListener('click', onOrderBackdropClick);
+}
+document.addEventListener('keydown', onOrderKeydownEscape);
 // --- ВІДПРАВКА ФОРМИ ---
-form.addEventListener('submit', async e => {
+refs.form.addEventListener('submit', async e => {
   e.preventDefault();
   const nameResult = validators.name(nameInput.value);
   const phoneResult = validators.phone(phoneInput.value);
@@ -260,28 +257,34 @@ form.addEventListener('submit', async e => {
     name: nameInput.value.trim(),
     phone: phoneMask.unmaskedValue,
     comment: commentInput.value.trim() || 'Без коментаря',
-    modelId: currentProduct, //!!!необхідно виправити
-    color: selectedColor, //!!!необхідно виправити
+    modelId:
+      currentProduct?._id || currentProduct?.id || '682f9bbf8acbdf505592ac36',
+    color: selectedColor ? String(selectedColor) : '#1212ca',
   };
   try {
+    showLoader();
     await axios.post(API_URL, formData);
+    hideLoader();
     await showToast('success', 'Дякуємо!', 'Ваше замовлення прийнято.');
-    form.reset();
+    refs.form.reset();
     phoneMask.value = '';
+    phoneMask.updateValue();
     storage.clear();
     validation.clear(nameInput);
     validation.clear(phoneInput);
     fieldStates.name = { isValidated: false, wasTouched: false };
     fieldStates.phone = { isValidated: false, wasTouched: false };
     updateButton();
-    closeModal();
+    closeOrderModal();
   } catch (error) {
+    hideLoader();
     console.error('Помилка відправки:', error.response?.data || error.message);
     const errorMessage =
       error.response?.data?.message || 'Щось пішло не так, повторіть спробу.';
     await showToast('error', 'Помилка!', errorMessage);
   }
 });
+
 // --- ІНІЦІАЛІЗАЦІЯ ---
 updateButton();
 if (storedData.name || storedData.phone) {

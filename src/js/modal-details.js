@@ -57,7 +57,7 @@ function renderModal(data) {
 
 modalRefs.colorContainer.addEventListener('change', e => {
   if (!e.target.classList.contains('product-color__input')) return;
-  selectedColor = e.target.value;
+  selectedColor = String(e.target.value);
 });
 
 refs.furnitureList.addEventListener('click', onCardClick);
@@ -65,18 +65,14 @@ if (refs.popularList) refs.popularList.addEventListener('click', onCardClick);
 async function onCardClick(e) {
   const btn = e.target.closest('.furniture-item-btn');
   if (!btn) return;
-
   const card = e.target.closest('.furniture-item');
   if (!card) return;
-
   const id = card.dataset.id;
   try {
     showLoader();
     const data = await fetchFurnitureById(id);
-
     currentProduct = data;
-    selectedColor = data.color?.[0] || null;
-
+    selectedColor = data.color?.[0] ? String(data.color[0]) : '#1212ca';
     renderModal(data);
     openModal();
   } catch (error) {
@@ -85,8 +81,7 @@ async function onCardClick(e) {
     hideLoader();
   }
 }
-
-//перехід з product modal => order modal
+// Перехід з product modal => order modal
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.querySelector('.modal-details');
   modal?.addEventListener('click', e => {
