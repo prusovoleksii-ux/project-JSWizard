@@ -43,13 +43,14 @@ export async function initFeedbackSection() {
 
   try {
     // Backend request
-    const page = Math.floor(Math.random() * 10) + 1;
+    const page = Math.floor(Math.random() * 9) + 1;
     const response = await getFeedbacks(10, page);
     const feedbacks = response?.feedbacks || [];
 
     //Validate returns: no array or < 3 feedback = error => catch block.
     if (!Array.isArray(feedbacks) || feedbacks.length < 3) {
-      throw new Error('Not enough feedbacks (min 3 required)');
+      console.error('Not enough feedbacks (min 3 required)');
+      return [];
     }
 
     // Render
