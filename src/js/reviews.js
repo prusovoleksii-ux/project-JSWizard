@@ -16,8 +16,8 @@ import starEmpty from '../img/stars/star-empty.svg?url';
 import starHalf from '../img/stars/star-half.svg?url';
 
 // iziToast
-import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+import { showToast } from './base-functions';
 
 // API function
 
@@ -40,6 +40,7 @@ export async function initFeedbackSection() {
   const paginationEl = section.querySelector('.reviews-swiper-pagination');
   const nextBtn = section.querySelector('.reviews-swiper-button-next');
   const prevBtn = section.querySelector('.reviews-swiper-button-prev');
+  const navwrap = section.querySelector('.reviews-navigation');
 
   try {
     // Backend request
@@ -49,7 +50,7 @@ export async function initFeedbackSection() {
 
     //Validate returns: no array or < 3 feedback = error => catch block.
     if (!Array.isArray(feedbacks) || feedbacks.length < 3) {
-      console.error('Not enough feedbacks (min 3 required)');
+      showToast('error', '', 'Помилка завантаження відгуків', 'topRight');
       return [];
     }
 
@@ -90,12 +91,8 @@ export async function initFeedbackSection() {
       },
     });
   } catch (err) {
-    console.error(err);
-    iziToast.error({
-      title: 'Error',
-      message: err.message,
-      position: 'topRight',
-    });
+    navwrap.style.display = 'none';
+    showToast('error', '', 'Помилка завантаження відгуків', 'topRight');
   }
 }
 
