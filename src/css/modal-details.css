@@ -20,6 +20,7 @@
     opacity 220ms ease,
     visibility 0s linear 220ms;
 }
+
 .backdrop.is-open {
   opacity: 1;
   visibility: visible;

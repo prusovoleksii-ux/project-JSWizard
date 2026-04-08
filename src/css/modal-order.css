@@ -34,6 +34,7 @@
     transform var(--time) var(--cubic-bezier);
   transition-delay: var(--time);
 }
+
 .backdrop.is-open .modal {
   opacity: 1;
   transform: translate(-50%, -50%) scale(0.9);

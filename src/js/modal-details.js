@@ -17,6 +17,7 @@ import { swatchClass } from './render-functions';
 import { fetchFurnitureById } from './products-api';
 import { hideLoader, showLoader } from './loader';
 import { renderStars } from './reviews';
+import { showToast } from './base-functions';
 
 let currentProduct = null;
 let selectedColor = null;
@@ -79,7 +80,12 @@ async function onCardClick(e) {
     renderModal(data);
     openModal();
   } catch (error) {
-    console.error('Помилка при завантаженні меблів:', error);
+    showToast(
+      'error',
+      'Помилка',
+      'Не вдалося завантажити меблі. Спробуйте пізніше.',
+      'topRight'
+    );
   } finally {
     hideLoader();
   }

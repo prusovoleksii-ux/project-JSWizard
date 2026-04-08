@@ -1,6 +1,5 @@
 import IMask from 'imask';
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
+
 import axios from 'axios';
 import { refs } from './refs';
 import {
@@ -10,6 +9,7 @@ import {
   onOrderKeydownEscape,
 } from './close-modal.js';
 import { showLoader, hideLoader } from './loader.js';
+import { showToast } from './base-functions.js';
 // --- КОНСТАНТИ ---
 const STORAGE_KEY = 'modal-form-state';
 const API_URL = 'https://furniture-store-v2.b.goit.study/api/orders';
@@ -116,7 +116,7 @@ const validation = {
     const container = input.closest('.entry-field');
     if (!container) {
       console.warn('No .entry-field found for input:', input);
-      return;  // Exit early, no crash
+      return; // Exit early, no crash
     }
     container
       .querySelectorAll(
@@ -152,50 +152,14 @@ const validation = {
     return result.isValid;
   },
 };
+
 // --- ПЕРЕВІРКА КНОПКИ ---
 const updateButton = () => {
   refs.sendButton.disabled = !(
     nameInput.value.trim().length >= 3 && phoneMask.unmaskedValue.length === 12
   );
 };
-// --- TOAST ---
-const showToast = (type, title, message) => {
-  return new Promise(resolve => {
-    iziToast.destroy();
-    const config = {
-      timeout: 3000,
-      progressBar: true,
-      close: true,
-      closeOnClick: true,
-      position: 'center',
-      transitionIn: 'fadeInDown',
-      transitionOut: 'fadeOutUp',
-      titleSize: '18px',
-      messageSize: '14px',
-    };
-    if (type === 'success') {
-      config.backgroundColor = '#d4edda';
-      config.titleColor = '#155724';
-      config.messageColor = '#155724';
-      config.iconColor = '#28a745';
-      config.progressBarColor = '#28a745';
-    } else if (type === 'error') {
-      config.backgroundColor = '#f8d7da';
-      config.titleColor = '#721c24';
-      config.messageColor = '#721c24';
-      config.iconColor = '#dc3545';
-      config.progressBarColor = '#dc3545';
-    }
-    iziToast[type]({
-      ...config,
-      title,
-      message,
-      onClosing: resolve,
-      onClosed: resolve,
-    });
-    setTimeout(resolve, config.timeout + 500);
-  });
-};
+
 // --- ОБРОБНИКИ ПОЛІВ ---
 const fieldHandlers = {
   name: {

@@ -67,6 +67,5 @@ export function openOrderModal(product, color) {
       refs.backdrop.classList.remove('is-open');
     }
     refs.orderBackdrop.classList.add('is-open');
-    closeModal();
   });
 }
