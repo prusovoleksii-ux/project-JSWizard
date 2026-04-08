@@ -19,12 +19,21 @@ document.addEventListener('DOMContentLoaded', initFeedbackSection);
 
 import { PAGE_SIZE } from './js/constants';
 import { refs } from './js/refs';
-import { fetchFurnitures, fetchCategories, fetchPopularFurnitures } from './js/products-api';
-import { loadFurnitures, fillCategoryNames, loadPopularFurnitures } from './js/render-functions';
+import {
+  fetchFurnitures,
+  fetchCategories,
+  fetchPopularFurnitures,
+} from './js/products-api';
+import {
+  loadFurnitures,
+  fillCategoryNames,
+  loadPopularFurnitures,
+} from './js/render-functions';
 import {
   checkBtnStatus,
   scrollPage,
   hideLoadMoreBtn,
+  showToast,
 } from './js/base-functions';
 import { showLoader, hideLoader } from './js/loader.js';
 import { initHeader } from './js/header.js';
@@ -44,7 +53,7 @@ let currentCategory = 'all';
 
 document.addEventListener('DOMContentLoaded', async () => {
   accordionInit();
-showLoader()
+  showLoader();
   hideLoadMoreBtn();
 
   try {
@@ -58,53 +67,72 @@ showLoader()
     loadFurnitures(data.furnitures);
     checkBtnStatus();
   } catch (error) {
-    console.error('Помилка при завантаженні меблів:', error);
+    showToast(
+      'error',
+      'Помилка',
+      'Не вдалося завантажити меблі. Спробуйте пізніше.',
+      'topRight'
+    );
   } finally {
     hideLoader();
   }
 
-// популярні меблі
-   try {
-     const popularData = await fetchPopularFurnitures();
-     loadPopularFurnitures(popularData.furnitures);
-     new Swiper('.popular-viewport', {
-  modules: [Navigation, Pagination],
-  slidesPerView: 1.5,
-  spaceBetween: 16,
-  breakpoints: {
-    768: { slidesPerView: 2, spaceBetween: 24 },
-    1440: { slidesPerView: 4, spaceBetween: 24 },
-  },
-  navigation: {
-    prevEl: '.popular-btn--prev',
-    nextEl: '.popular-btn--next',
-  },
-  on: {
-    navigationNext(swiper) { swiper.navigation.nextEl.blur(); },
-    navigationPrev(swiper) { swiper.navigation.prevEl.blur(); },
-  },
-  pagination: {
-    el: '.popular-pagination',
-    clickable: true,
-  },
-});
+  // популярні меблі
+  try {
+    const popularData = await fetchPopularFurnitures();
+    loadPopularFurnitures(popularData.furnitures);
+    new Swiper('.popular-viewport', {
+      modules: [Navigation, Pagination],
+      slidesPerView: 1.5,
+      spaceBetween: 16,
+      breakpoints: {
+        768: { slidesPerView: 2, spaceBetween: 24 },
+        1440: { slidesPerView: 4, spaceBetween: 24 },
+      },
+      navigation: {
+        prevEl: '.popular-btn--prev',
+        nextEl: '.popular-btn--next',
+      },
+      on: {
+        navigationNext(swiper) {
+          swiper.navigation.nextEl.blur();
+        },
+        navigationPrev(swiper) {
+          swiper.navigation.prevEl.blur();
+        },
+      },
+      pagination: {
+        el: '.popular-pagination',
+        clickable: true,
+      },
+    });
   } catch (error) {
-    console.error('Помилка при завантаженні популярних меблів:', error);
+    showToast(
+      'error',
+      'Помилка',
+      'Не вдалося завантажити популярні меблі. Спробуйте пізніше.',
+      'topRight'
+    );
   }
 });
 
 refs.loadMoreBtn.addEventListener('click', async () => {
   page += 1;
   hideLoadMoreBtn();
-showLoader()
+  showLoader();
   try {
     const data = await fetchFurnitures();
     loadFurnitures(data.furnitures);
     scrollPage();
     checkBtnStatus();
   } catch (error) {
-    console.error('Помилка при завантаженні меблів:', error);
-  }finally {
+    showToast(
+      'error',
+      'Помилка',
+      'Не вдалося завантажити меблі. Спробуйте пізніше.',
+      'topRight'
+    );
+  } finally {
     hideLoader();
   }
 });
@@ -132,8 +160,12 @@ refs.categoryList.addEventListener('click', async event => {
     checkBtnStatus();
     hideLoader();
   } catch (error) {
-    console.error('Помилка при завантаженні меблів:', error);
+    showToast(
+      'error',
+      'Помилка',
+      'Не вдалося завантажити меблі. Спробуйте пізніше.',
+      'topRight'
+    );
     hideLoader();
   }
 });
-
